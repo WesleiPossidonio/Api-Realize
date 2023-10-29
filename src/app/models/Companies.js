@@ -1,0 +1,48 @@
+import Sequelize, { Model } from 'sequelize'
+import bcrypt from 'bcrypt'
+
+class Companies extends Model{
+    static init(sequelize){
+        super.init(
+            {
+                name_companies: Sequelize.STRING,
+                cnpj: Sequelize.STRING,
+                email: Sequelize.STRING,
+                company_description: Sequelize.STRING,
+                path_banner: Sequelize.STRING,
+                path_img: Sequelize.STRING,
+                password: Sequelize.VIRTUAL,
+                password_hash: Sequelize.STRING,
+                urlImage: {
+                    type: Sequelize.VIRTUAL,
+                    get() {
+                      return `http://localhost:3000/companies-file/${this.path_img}`;
+                    },
+                  },
+                  urlBanner: {
+                    type: Sequelize.VIRTUAL,
+                    get() {
+                      return `http://localhost:3000/companies-file/${this.path_banner}`;
+                    },
+                  },
+                },
+            {
+                sequelize,
+            }
+        )
+
+        this.addHook('beforeSave', async (user) => {
+          if (user.password) {
+            user.password_hash = await bcrypt.hash(user.password, 10)
+          }
+        })
+
+        return this
+    }
+
+    checkPassword(password) {
+      return bcrypt.compare(password, this.password_hash)
+    }
+} 
+
+export default Companies
