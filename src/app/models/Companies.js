@@ -16,13 +16,13 @@ class Companies extends Model{
                 urlImage: {
                     type: Sequelize.VIRTUAL,
                     get() {
-                      return `http://localhost:3000/companies-file/${this.path_img}`;
+                      return `https://api-realize.vercel.app/companies-file/${this.path_img}`;
                     },
                   },
                   urlBanner: {
                     type: Sequelize.VIRTUAL,
                     get() {
-                      return `http://localhost:3000/companies-file/${this.path_banner}`;
+                      return `https://api-realize.vercel.app/companies-file/${this.path_banner}`;
                     },
                   },
                 },
