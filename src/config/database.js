@@ -16,4 +16,18 @@ module.exports = {
     },
 }
 
-console.log(process.env.DB_DIALECT)
+// console.log(process.env.DB_DIALECT)
+
+
+// export default {
+//   dialect: 'postgres',
+//   host: 'localhost',
+//   username: 'postgres',
+//   password:'postgres',
+//   database: 'monetize',
+//   define: {
+//     timestamps: true,
+//     underscored: true,
+//     underscoredAll: true,
+//   },
+// }

@@ -39,6 +39,8 @@ class SessionsController {
             company_description: companies.company_description,
             email: companies.email,
             name_companies: companies.name_companies,
+            path_img: companies.path_img,
+            path_banner: companies.path_banner,
             urlImage: companies.urlImage,
             urlBanner: companies.urlBanner,
             token: jwt.sign({ id: companies.id }, authConfig.secret, {
