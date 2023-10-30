@@ -6,6 +6,7 @@ import CompaniesController from './app/controlles/CompaniesController'
 import VacanciesController from './app/controlles/VacanciesController'
 import SessionsController from './app/controlles/SessionController'
 import SendMail from './app/controlles/SendMail'
+import CouponController from './app/controlles/CouponController'
 
 const upload = multer(multerConfig)
 
@@ -22,5 +23,11 @@ routes.post('/vacancies', VacanciesController.store)
 routes.get('/listVacancies', VacanciesController.index)
 routes.put('/updateVacancies', VacanciesController.update)
 routes.delete('/deleteVacancies', VacanciesController.delete)
+
+routes.post('/coupon', upload.single('coupon_img'), CouponController.store)
+routes.get('/listCoupon', CouponController.index)
+routes.put('/updateCoupon', CouponController.update)
+routes.delete('/deleteCoupon', CouponController.delete)
+
 
 export default routes

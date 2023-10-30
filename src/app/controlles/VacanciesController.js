@@ -64,11 +64,11 @@ class VacanciesController {
 
         const { vacancies_id } = request.params
 
-        const userExists = await Vacancies.findOne({
+        const cacanciesExists = await Vacancies.findOne({
             where: { vacancies_id },
         })
 
-        if (!userExists) {
+        if (!cacanciesExists) {
             return response.status(400).json({ error: 'Vaga Não Encontrada' })
         }
 

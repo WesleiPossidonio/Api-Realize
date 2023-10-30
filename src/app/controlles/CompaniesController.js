@@ -1,6 +1,7 @@
 import * as yup from 'yup'
-
 import Companies from '../models/Companies'
+
+
 
 class CompaniesController {
     async store(request, response){
@@ -20,7 +21,13 @@ class CompaniesController {
         }
 
         const { path_banner, path_img } = request.files
-        const {name_companies, cnpj, email, company_description, password } = request.body
+        const { 
+            name_companies, 
+            cnpj, 
+            email, 
+            company_description, 
+            password 
+        } = request.body
 
         const companiesExists = await Companies.findOne({
             where: { cnpj },
@@ -80,27 +87,31 @@ class CompaniesController {
 
         const { cnpj } = request.params
 
-        const userExists = await Companies.findOne({
+        const companyExists = await Companies.findOne({
             where: { cnpj },
           })
       
-          if (userExists) {
+          if (companyExists) {
+
+            const { path_banner, path_img } = request.files
             const {
                 name_companies,
+                cnpj,
                 email,
                 company_description,
-                path_banner,
-                path_img,
                 password,
             } = request.body;
+
+            const newPath_banner = path_banner[0].filename
+            const newPath_img = path_img[0].filename
 
             const updateCompanies = await Companies.update(
                 {
                   name_companies,
                   email,
                   company_description,
-                  path_banner,
-                  path_img,
+                  path_banne: newPath_banner,
+                  path_img: newPath_img,
                   password,
                 },
                 {

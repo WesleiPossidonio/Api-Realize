@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize'
 
-class Vacancies extends Model {
+class Coupon extends Model {
     static init(sequelize){
         super.init({
             vacancies_id: Sequelize.INTEGER,
@@ -8,7 +8,7 @@ class Vacancies extends Model {
             number_of_vacancies: Sequelize.STRING,
             job_description: Sequelize.STRING,
             vacancy_requirements: Sequelize.STRING,
-            additional_information: Sequelize.STRING
+            additional_information: Sequelize.STRING,
         },
         {
             sequelize
@@ -25,4 +25,4 @@ class Vacancies extends Model {
     }
 }
 
-export default Vacancies
+export default Coupon
