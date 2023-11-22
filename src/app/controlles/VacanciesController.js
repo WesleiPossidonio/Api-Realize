@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import Vacancies from '../models/Vacancies'
+import Companies from '../models/Companies'
 
 class VacanciesController {
     async store(request, response){
@@ -42,7 +43,12 @@ class VacanciesController {
     }
 
     async index(request, response){
-        const listVacancies = await Vacancies.findAll()
+        const listVacancies = await Vacancies.findAll({
+            include: {
+                model: Companies, 
+                as: 'vacancies' 
+              },
+        })
         return response.status(201).json(listVacancies)
     }
 

@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import Companies from '../models/Companies'
+import Vacancies from '../models/Vacancies'
 
 
 
@@ -64,7 +65,6 @@ class CompaniesController {
 
     async index(request, response){
         const companies = await Companies.findAll()
-
         return response.json(companies)
     }
 
