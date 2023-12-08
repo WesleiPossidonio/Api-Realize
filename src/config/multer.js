@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
   projectId: process.env.PORJECT_ID,
   storageBucket:process.env.STORAGE_BUCKET,
