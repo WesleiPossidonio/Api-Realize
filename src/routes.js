@@ -1,5 +1,3 @@
-import multer from 'multer'
-import multerConfig from './config/multer'
 
 import { Router } from 'express'
 import CompaniesController from './app/controlles/CompaniesController'
@@ -7,13 +5,12 @@ import VacanciesController from './app/controlles/VacanciesController'
 import SessionsController from './app/controlles/SessionController'
 import SendMail from './app/controlles/SendMail'
 import CouponController from './app/controlles/CouponController'
-
-const upload = multer(multerConfig)
+import {upload, uploadToFirebase } from './config/multer'
 
 const routes = new Router()
 
 routes.post('/sendMail', SendMail.store )
-routes.post('/companies', upload.fields([{ name: 'path_banner' }, { name: 'path_img' }]), CompaniesController.store)
+routes.post('/companies', upload.fields([{ name: 'path_banner' }, { name: 'path_img' }]), uploadToFirebase, CompaniesController.store)
 routes.get('/listCompanies', CompaniesController.index)
 routes.put('/updateCompanies', CompaniesController.update)
 

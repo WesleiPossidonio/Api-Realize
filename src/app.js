@@ -18,10 +18,6 @@ class App {
 
   middlewares() {
     this.app.use(express.json())
-    this.app.use(
-      '/companies-file',
-      express.static(resolve(__dirname, '..', 'uploads'))
-    )
 
     this.app.use(cors())
   }

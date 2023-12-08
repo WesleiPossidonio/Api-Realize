@@ -3,32 +3,32 @@ import bcrypt from 'bcrypt'
 
 class Companies extends Model{
     static init(sequelize){
-        super.init(
-            {
-                name_companies: Sequelize.STRING,
-                cnpj: Sequelize.STRING,
-                email: Sequelize.STRING,
-                company_description: Sequelize.STRING,
-                path_banner: Sequelize.STRING,
-                path_img: Sequelize.STRING,
-                password: Sequelize.VIRTUAL,
-                password_hash: Sequelize.STRING,
-                urlImage: {
-                    type: Sequelize.VIRTUAL,
-                    get() {
-                      return `https://api-realize.vercel.app/companies-file/${this.path_img}`;
-                    },
-                  },
-                  urlBanner: {
-                    type: Sequelize.VIRTUAL,
-                    get() {
-                      return `https://api-realize.vercel.app/companies-file/${this.path_banner}`;
-                    },
-                  },
+      super.init(
+          {
+            name_companies: Sequelize.STRING,
+            cnpj: Sequelize.STRING,
+            email: Sequelize.STRING,
+            company_description: Sequelize.STRING,
+            path_banner: Sequelize.STRING,
+            path_img: Sequelize.STRING,
+            password: Sequelize.VIRTUAL,
+            password_hash: Sequelize.STRING,
+            urlImage: {
+              type: Sequelize.VIRTUAL,
+              get() {
+                return this.path_img;
+              },
+            },
+            urlBanner: {
+                type: Sequelize.VIRTUAL,
+                get() {
+                  return this.path_banner;
                 },
-            {
-                sequelize,
-            }
+              },
+          },
+          {
+              sequelize,
+          }
         )
 
         this.addHook('beforeSave', async (user) => {
