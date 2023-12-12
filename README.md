@@ -51,6 +51,53 @@ yarn start
 
 ## Endpoints da API
 
+A seguir estão alguns dos principais endpoints da API, juntamente com os métodos HTTP permitidos e exemplos de requisições.
+
+### 1. **Cadastrar Empresas**
+
+- **Método:** POST
+- **Endpoint:** `/companies`
+
+#### Exemplo de Requisição:
+
+```bash
+curl -X POST http://localhost:3000/companies
+````
+
+### 2. **Login**
+
+- **Método:** POST
+- **Endpoint:** `/sessions`
+
+#### Exemplo de Requisição:
+
+```bash
+curl -X POST http://localhost:3000/sessions
+````
+
+### 2. **Cadastrar Vagas**
+
+- **Método:** POST
+- **Endpoint:** `/vacancies`
+
+#### Exemplo de Requisição:
+
+```bash
+curl -X POST http://localhost:3000/vacancies
+````
+
+### 2. **Buscar Vagas**
+
+- **Método:** GET
+- **Endpoint:** `/listVacancies`
+
+#### Exemplo de Requisição:
+
+```bash
+curl -X GET http://localhost:3000/listVacancies
+````
+Licença
+Este projeto é licenciado sob a Licença XYZ - veja o arquivo LICENSE.md para mais detalhes.
 
 
 
