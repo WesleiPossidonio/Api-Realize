@@ -7,7 +7,7 @@ import Companies from '../models/Companies'
 class SessionsController {
     async store(request, response){
         const schema = yup.object().shape({
-            cnpj: yup.string().required(),
+            email: yup.string().email().required(),
             password: yup.string().required()
         })
 
@@ -19,10 +19,10 @@ class SessionsController {
             return cnpjPasswordIncorrect()
         }
       
-        const { cnpj, password } = request.body
+        const { email, password } = request.body
 
         const companies = await Companies.findOne({
-            where: { cnpj },
+            where: { email },
         })
 
         if (!companies) {
@@ -35,7 +35,7 @@ class SessionsController {
 
         return response.json({
             id: companies.id,
-            cnpj,
+            email,
             company_description: companies.company_description,
             email: companies.email,
             name_companies: companies.name_companies,

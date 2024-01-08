@@ -6,7 +6,6 @@ class Companies extends Model{
       super.init(
           {
             name_companies: Sequelize.STRING,
-            cnpj: Sequelize.STRING,
             email: Sequelize.STRING,
             company_description: Sequelize.STRING,
             path_banner: Sequelize.STRING,
