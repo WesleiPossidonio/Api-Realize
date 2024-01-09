@@ -47,8 +47,9 @@ class VacanciesController {
             include: {
                 model: Companies, 
                 as: 'vacancies' 
-              },
+            },
         })
+        
         return response.status(201).json(listVacancies)
     }
 
