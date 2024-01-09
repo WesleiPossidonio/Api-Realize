@@ -19,6 +19,10 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      branch_of_activity: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       company_description: {
         type: Sequelize.STRING,
         allowNull: false,

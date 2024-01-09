@@ -4,6 +4,7 @@ class CompaniesController {
     async store(request, response) {
         const schema = yup.object().shape({
           name_companies: yup.string().required(),
+          branch_of_activity: yup.string().required(),
           email: yup.string().required(),
           company_description: yup.string().required(),
           password: yup.string().required().min(6),
@@ -19,6 +20,7 @@ class CompaniesController {
 
         const {
           name_companies,
+          branch_of_activity,
           email,
           company_description,
           password,
@@ -46,6 +48,7 @@ class CompaniesController {
       
         const companies = await Companies.create({
           name_companies,
+          branch_of_activity,
           email,
           company_description,
           password,
@@ -64,6 +67,7 @@ class CompaniesController {
     async update(request, response){
         const schema = yup.object().shape({
             name_companies: yup.string(),
+            branch_of_activity: yup.string(),
             cnpj: yup.string(),
             email: yup.string(),
             company_description: yup.string(),
@@ -89,7 +93,7 @@ class CompaniesController {
             const { path_banner, path_img } = request.files
             const {
                 name_companies,
-    
+                branch_of_activity,
                 email,
                 company_description,
                 password,
@@ -101,6 +105,7 @@ class CompaniesController {
             const updateCompanies = await Companies.update(
                 {
                   name_companies,
+                  branch_of_activity,
                   email,
                   company_description,
                   path_banne: newPath_banner,
