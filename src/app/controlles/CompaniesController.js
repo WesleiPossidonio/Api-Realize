@@ -27,7 +27,7 @@ class CompaniesController {
         } = request.body;
       
         const companiesExists = await Companies.findOne({
-          where: { cnpj },
+          where: { email },
         });
       
         if (!path_banner || !path_img || (!path_banner && !path_img)) {
@@ -68,7 +68,6 @@ class CompaniesController {
         const schema = yup.object().shape({
             name_companies: yup.string(),
             branch_of_activity: yup.string(),
-            cnpj: yup.string(),
             email: yup.string(),
             company_description: yup.string(),
             path_banner: yup.string(),
@@ -82,10 +81,10 @@ class CompaniesController {
             return response.status(400).json({ error: err.errors })
         }
 
-        const { cnpj } = request.params
+        const { email } = request.params
 
         const companyExists = await Companies.findOne({
-            where: { cnpj },
+            where: { email },
           })
       
           if (companyExists) {
@@ -113,7 +112,7 @@ class CompaniesController {
                   password,
                 },
                 {
-                  where: { cnpj }, 
+                  where: { email }, 
                 }
             );
 
