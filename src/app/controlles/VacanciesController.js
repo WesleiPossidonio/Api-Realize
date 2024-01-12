@@ -10,7 +10,7 @@ class VacanciesController {
             number_of_vacancies: yup.string().required(),
             job_description: yup.string().required(),
             vacancy_requirements: yup.string().required(),
-            additional_information: yup.string().required()
+            additional_information: yup.string().optional()
         })
 
         try {
