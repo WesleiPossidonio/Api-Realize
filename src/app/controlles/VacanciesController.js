@@ -10,7 +10,6 @@ class VacanciesController {
             number_of_vacancies: yup.string().required(),
             job_description: yup.string().required(),
             vacancy_requirements: yup.string().required(),
-            additional_information: yup.string().optional()
         })
 
         try {
@@ -25,7 +24,6 @@ class VacanciesController {
             number_of_vacancies,
             job_description,
             vacancy_requirements,
-            additional_information
         } = request.body
 
 
@@ -34,7 +32,6 @@ class VacanciesController {
             number_of_vacancies,
             job_description,
             vacancy_requirements,
-            additional_information,
             vacancies_id
         })
 
@@ -59,7 +56,6 @@ class VacanciesController {
             number_of_vacancies: yup.string(),
             job_description: yup.string(),
             vacancy_requirements: yup.string(),
-            additional_information: yup.string()
         })
 
         try {
@@ -84,9 +80,7 @@ class VacanciesController {
             number_of_vacancies,
             job_description,
             vacancy_requirements,
-            additional_information
         } = request.body
-
 
         await Vacancies.update(
             {
@@ -94,8 +88,7 @@ class VacanciesController {
                 number_of_vacancies,
                 job_description,
                 vacancy_requirements,
-                additional_information
-            },
+                            },
             { where: { vacancies_id } }
         )
 

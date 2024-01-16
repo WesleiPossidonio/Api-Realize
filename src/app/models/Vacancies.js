@@ -8,7 +8,6 @@ class Vacancies extends Model {
             number_of_vacancies: Sequelize.STRING,
             job_description: Sequelize.STRING,
             vacancy_requirements: Sequelize.STRING,
-            additional_information: Sequelize.STRING,
         },
         {
             sequelize
