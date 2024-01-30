@@ -24,7 +24,7 @@ module.exports = {
         allowNull: false,
       },
       company_description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       path_banner: {

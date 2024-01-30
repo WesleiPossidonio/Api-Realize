@@ -7,7 +7,7 @@ class Companies extends Model{
           {
             name_companies: Sequelize.STRING,
             email: Sequelize.STRING,
-            company_description: Sequelize.STRING,
+            company_description: Sequelize.TEXT,
             branch_of_activity: Sequelize.STRING, 
             path_banner: Sequelize.STRING,
             path_img: Sequelize.STRING,
