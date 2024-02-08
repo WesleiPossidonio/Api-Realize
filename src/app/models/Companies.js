@@ -43,6 +43,13 @@ class Companies extends Model{
     checkPassword(password) {
       return bcrypt.compare(password, this.password_hash)
     }
+
+    static associate(models){
+      this.belongsTo(models.Comments, {
+          foreignKey: 'id',
+          as: 'comments'
+      })
+  }
 } 
 
 export default Companies

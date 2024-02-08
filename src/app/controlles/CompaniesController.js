@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 import Companies from '../models/Companies'
+import Comments from '../models/Comments';
 class CompaniesController {
     async store(request, response) {
         const schema = yup.object().shape({
@@ -60,7 +61,12 @@ class CompaniesController {
       }
 
     async index(request, response){
-        const companies = await Companies.findAll()
+        const companies = await Companies.findAll({
+          include: {
+                model: Comments, 
+                as: 'comments',
+            },
+        })
         return response.json(companies)
     }
 

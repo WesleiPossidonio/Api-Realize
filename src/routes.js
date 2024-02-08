@@ -6,6 +6,7 @@ import SessionsController from './app/controlles/SessionController'
 import SendMail from './app/controlles/SendMail'
 
 import {upload, uploadToFirebase } from './config/multer'
+import CommentsController from './app/controlles/CommentsController'
 
 const routes = new Router()
 
@@ -20,6 +21,9 @@ routes.post('/vacancies', VacanciesController.store)
 routes.get('/listVacancies', VacanciesController.index)
 routes.put('/updateVacancies', VacanciesController.update)
 routes.delete('/deleteVacancies', VacanciesController.delete)
+
+routes.get('/listComments', CommentsController.index)
+routes.post('/addComments', CommentsController.store)
 
 
 export default routes

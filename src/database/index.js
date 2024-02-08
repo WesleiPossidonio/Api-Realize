@@ -3,10 +3,11 @@ import Sequelize from 'sequelize'
 import configDatabase from '../config/database'
 import Companies from '../app/models/Companies'
 import Vacancies from '../app/models/Vacancies'
+import Comments from '../app/models/Comments'
 
 
 
-const models = [Companies, Vacancies]
+const models = [Companies, Vacancies, Comments]
 
 class Database {
   constructor() {
