@@ -18,11 +18,7 @@ class CompaniesController {
       
         const { 
           path_banner,  
-          path_img, 
-          img_company_one,  
-          img_company_two, 
-          img_company_three, 
-          img_company_four 
+          path_img 
         } = request.files;
 
         const {
@@ -37,8 +33,7 @@ class CompaniesController {
           where: { email },
         });
       
-        if ( !path_banner || !path_img || !img_company_one || !img_company_two
-           || !img_company_three || !img_company_four || (!path_banner && !path_img && !img_company_one && !img_company_two && !img_company_three && !img_company_four)) {
+        if ( !path_banner || !path_img || (!path_banner && !path_img)) {
           return response.status(400).json({ error: 'Imagens Não Encontradas' });
         }
       
