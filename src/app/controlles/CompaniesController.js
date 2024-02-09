@@ -61,12 +61,7 @@ class CompaniesController {
       }
 
     async index(request, response){
-        const companies = await Companies.findAll({
-          include: {
-                model: Comments, 
-                as: 'comments',
-            },
-        })
+        const companies = await Companies.findAll()
         return response.json(companies)
     }
 
