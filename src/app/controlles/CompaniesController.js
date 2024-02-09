@@ -17,7 +17,14 @@ class CompaniesController {
           return response.status(400).json({ error: err.errors });
         }
       
-        const { path_banner,  path_img } = request;
+        const { 
+          path_banner,  
+          path_img, 
+          img_company_one,  
+          img_company_two, 
+          img_company_three, 
+          img_company_four 
+        } = request;
 
         const {
           name_companies,
@@ -31,7 +38,8 @@ class CompaniesController {
           where: { email },
         });
       
-        if (!path_banner || !path_img || (!path_banner && !path_img)) {
+        if ( !path_banner || !path_img || !img_company_one || !img_company_two
+           || !img_company_three || !img_company_four || (!path_banner && !path_img && !img_company_one && !img_company_two && !img_company_three && !img_company_four)) {
           return response.status(400).json({ error: 'Imagens Não Encontradas' });
         }
       

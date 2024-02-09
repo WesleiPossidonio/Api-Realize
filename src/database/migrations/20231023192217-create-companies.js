@@ -35,6 +35,22 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      img_company_one: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      img_company_two: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      img_company_three: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      img_company_four: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       password_hash: {
         type: Sequelize.STRING,
         allowNull: false,

@@ -11,7 +11,7 @@ import CommentsController from './app/controlles/CommentsController'
 const routes = new Router()
 
 routes.post('/sendMail', SendMail.store )
-routes.post('/companies', upload.fields([{ name: 'path_banner' }, { name: 'path_img' }]), uploadToFirebase, CompaniesController.store)
+routes.post('/companies', upload.fields([{ name: 'path_banner' }, { name: 'path_img' }, { name: 'img_company_one' }, { name: 'img_company_two' }, { name: 'img_company_three' }, { name: 'img_company_four' }]), uploadToFirebase, CompaniesController.store)
 routes.get('/listCompanies', CompaniesController.index)
 routes.put('/updateCompanies', CompaniesController.update)
 
