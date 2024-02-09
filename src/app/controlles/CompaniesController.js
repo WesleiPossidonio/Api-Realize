@@ -19,7 +19,7 @@ class CompaniesController {
         const { 
           path_banner,  
           path_img 
-        } = request.files;
+        } = request;
 
         const {
           name_companies,
@@ -55,8 +55,8 @@ class CompaniesController {
           email,
           company_description,
           password,
-          path_banner: path_banner[0],
-          path_img: path_img[0],
+          path_banner,
+          path_img,
         });
       
         return response.json(companies);
