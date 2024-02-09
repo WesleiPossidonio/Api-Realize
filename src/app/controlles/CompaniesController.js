@@ -1,6 +1,5 @@
 import * as yup from 'yup'
 import Companies from '../models/Companies'
-import Comments from '../models/Comments';
 class CompaniesController {
     async store(request, response) {
         const schema = yup.object().shape({
@@ -24,7 +23,7 @@ class CompaniesController {
           img_company_two, 
           img_company_three, 
           img_company_four 
-        } = request;
+        } = request.files;
 
         const {
           name_companies,
