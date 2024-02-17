@@ -59,18 +59,21 @@ const uploadToFirebase = async (req, res, next) => {
     const uploadPromises = [];
 
     const uploadFile = async (arquivo, fieldName) => {
-      const fileExt = extname(arquivo[0].originalname);
-      const nomeArquivo = `${v4()}${fileExt}`;
-    
-      const fileRef = ref(storage, `imgEmpreendedores/${nomeArquivo}`);
-    
-      await uploadBytes(fileRef, arquivo[0].buffer);
-    
-      // Generate a permanent public-access download URL
-      const downloadURL = await getDownloadURL(fileRef);
-    
-      // Add the download URL to the request
-      req[fieldName] = downloadURL;
+      for (const image of arquivo) {
+        const fileExt = extname(image.originalname);
+        const nomeArquivo = `${v4()}${fileExt}`;
+
+        const fileRef = ref(storage, `realizeFiles/${nomeArquivo}`);
+
+        try {
+          await uploadBytes(fileRef, image.buffer);
+          const downloadURL = await getDownloadURL(fileRef);
+          req[fieldName].push(downloadURL);
+        } catch (error) {
+          console.error('Erro ao fazer upload do arquivo:', error);
+          // Trate o erro conforme necessário
+        }
+      }
     };
 
     // Inicia o upload para path_banner e path_img
