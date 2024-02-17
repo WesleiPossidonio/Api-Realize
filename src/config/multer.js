@@ -63,7 +63,7 @@ const uploadToFirebase = async (req, res, next) => {
         const fileExt = extname(image.originalname);
         const nomeArquivo = `${v4()}${fileExt}`;
 
-        const fileRef = ref(storage, `realizeFiles/${nomeArquivo}`);
+        const fileRef = ref(storage, `imgEmpreendedores/${nomeArquivo}`);
 
         try {
           await uploadBytes(fileRef, image.buffer);
