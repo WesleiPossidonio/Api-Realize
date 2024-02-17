@@ -49,10 +49,10 @@ const uploadToFirebase = async (req, res, next) => {
       throw new Error('Nenhum arquivo encontrado');
     }
 
-    const { path_banner, path_img } = req.files;
+    const { path_banner, path_img, path_companies_img } = req.files;
 
-    // Verifica se path_banner, path_img  estão definidos
-    if (!path_banner || !path_img) {
+    // Verifica se path_banner, path_img e path_companies_img estão definidos
+    if (!path_banner || !path_img || !path_companies_img) {
       throw new Error('Imagens não descobertas');
     }
 
@@ -76,6 +76,7 @@ const uploadToFirebase = async (req, res, next) => {
     // Inicia o upload para path_banner e path_img
     uploadPromises.push(uploadFile(path_banner, 'path_banner'));
     uploadPromises.push(uploadFile(path_img, 'path_img'));
+    uploadPromises.push(uploadFile(path_companies_img, 'path_companies_img'));
 
 
     await Promise.all(uploadPromises);
