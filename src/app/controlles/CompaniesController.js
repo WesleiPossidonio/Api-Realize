@@ -18,7 +18,8 @@ class CompaniesController {
       
         const { 
           path_banner,  
-          path_img 
+          path_img,
+          path_companies_img
         } = request;
 
         const {
@@ -33,7 +34,7 @@ class CompaniesController {
           where: { email },
         });
       
-        if ( !path_banner || !path_img || (!path_banner && !path_img)) {
+        if ( !path_banner || !path_img || !path_companies_img ||  (!path_banner && !path_img && !path_companies_img)) {
           return response.status(400).json({ error: 'Imagens Não Encontradas' });
         }
       
@@ -57,6 +58,7 @@ class CompaniesController {
           password,
           path_banner,
           path_img,
+          path_companies_img: path_companies_img.map(img => img.url)
         });
       
         return response.json(companies);

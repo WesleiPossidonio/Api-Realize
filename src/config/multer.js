@@ -15,6 +15,7 @@ const firebaseConfig = {
   storageBucket:process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGIN_SENDERG_ID,
   appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID
 };
 
 initializeApp(firebaseConfig);
@@ -23,11 +24,11 @@ const storage = getStorage();
 const multerConfig = {
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // Limite de 1MB
+    fileSize: 5 * 1024 * 1024, // Limite de 5MB
   },
 
   fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = ['image/jpeg', 'image/png'];
+    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
@@ -50,7 +51,7 @@ const uploadToFirebase = async (req, res, next) => {
 
     const { path_banner, path_img } = req.files;
 
-    // Verifica se path_banner e path_img estão definidos
+    // Verifica se path_banner, path_img  estão definidos
     if (!path_banner || !path_img) {
       throw new Error('Imagens não descobertas');
     }
@@ -61,7 +62,7 @@ const uploadToFirebase = async (req, res, next) => {
       const fileExt = extname(arquivo[0].originalname);
       const nomeArquivo = `${v4()}${fileExt}`;
     
-      const fileRef = ref(storage, `realizeFiles/${nomeArquivo}`);
+      const fileRef = ref(storage, `imgEmpreendedores/${nomeArquivo}`);
     
       await uploadBytes(fileRef, arquivo[0].buffer);
     
@@ -72,11 +73,13 @@ const uploadToFirebase = async (req, res, next) => {
       req[fieldName] = downloadURL;
     };
 
+    // Inicia o upload para path_banner e path_img
     uploadPromises.push(uploadFile(path_banner, 'path_banner'));
     uploadPromises.push(uploadFile(path_img, 'path_img'));
 
+
     await Promise.all(uploadPromises);
-    
+
     next();
   } catch (error) {
     return res.status(400).json({ error: error.message });
