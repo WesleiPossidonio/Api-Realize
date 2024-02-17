@@ -34,7 +34,7 @@ class CompaniesController {
           where: { email },
         });
       
-        if ( !path_banner || !path_img || !path_companies_img ||  (!path_banner && !path_img && !path_companies_img)) {
+        if ( !path_banner || !path_img || !path_companies_img) {
           return response.status(400).json({ error: 'Imagens Não Encontradas' });
         }
       
