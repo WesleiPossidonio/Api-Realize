@@ -4,14 +4,22 @@ import CompaniesController from './app/controlles/CompaniesController'
 import VacanciesController from './app/controlles/VacanciesController'
 import SessionsController from './app/controlles/SessionController'
 import SendMail from './app/controlles/SendMail'
-
-import {upload, uploadToFirebase } from './config/multer'
 import CommentsController from './app/controlles/CommentsController'
+
+import {upload, uploadToGoogleDrive} from './config/multer'
+
 
 const routes = new Router()
 
 routes.post('/sendMail', SendMail.store )
-routes.post('/companies', upload.fields([{ name: 'path_banner' }, { name: 'path_img' }, { name: 'path_companies_img'}]), uploadToFirebase, CompaniesController.store)
+routes.post('/companies', upload.fields([
+    {name: 'path_banner'},
+    {name: 'path_img'}, 
+    {name: 'first_img'}, 
+    {name: 'second_img'},
+    {name: 'third_img'},
+    {name: 'fourth_img'}
+  ]), uploadToGoogleDrive, CompaniesController.store);
 routes.get('/listCompanies', CompaniesController.index)
 routes.put('/updateCompanies', CompaniesController.update)
 

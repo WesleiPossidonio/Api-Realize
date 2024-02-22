@@ -1,34 +1,18 @@
-
 import multer from 'multer';
 import { v4 } from 'uuid';
 import { extname } from 'path';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { initializeApp } from 'firebase/app';
-
-import * as dotenv from 'dotenv'
-dotenv.config()
-
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PORJECT_ID,
-  storageBucket:process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGIN_SENDERG_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
-};
-
-initializeApp(firebaseConfig);
-const storage = getStorage();
+import { google } from 'googleapis';
+import * as dotenv from 'dotenv';
+import { Readable } from 'stream';
+dotenv.config();
 
 const multerConfig = {
   storage: multer.memoryStorage(),
   limits: {
     fileSize: 5 * 1024 * 1024, // Limite de 5MB
   },
-
   fileFilter: (req, file, cb) => {
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    const allowedMimeTypes = ['image/jpeg', 'image/png'];
     if (allowedMimeTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
@@ -39,78 +23,96 @@ const multerConfig = {
 
 const upload = multer(multerConfig);
 
-// Middleware que realiza o upload para o Firebase Storage
-const uploadToFirebase = async (req, res, next) => {
+// Middleware que realiza o upload para o Google Drive
+const uploadToGoogleDrive = async (req, res, next) => {
   try {
     console.log('req.files:', req.files);
 
-    // Verifica se req.files está definido
     if (!req.files) {
       throw new Error('Nenhum arquivo encontrado');
     }
 
-    const { path_banner, path_img, path_companies_img } = req.files;
+    const { 
+      path_banner, 
+      path_img, 
+      first_img, 
+      second_img, 
+      third_img, 
+      fourth_img 
+    } = req.files;
 
-    // Verifica se path_banner, path_img e path_companies_img estão definidos
-    if (!path_banner || !path_img || !path_companies_img) {
-      throw new Error('Imagens não descobertas');
+    if (!path_banner || !path_img || !first_img || !second_img || !third_img || !fourth_img) {
+      throw new Error('Imagens não encontradas');
     }
 
     const uploadPromises = [];
 
     const uploadFile = async (arquivo, fieldName) => {
-      for (const image of arquivo) {
-        const fileExt = extname(image.originalname);
-        const nomeArquivo = `${v4()}${fileExt}`;
+      const fileExt = extname(arquivo.originalname); 
+      const nomeArquivo = `${v4()}${fileExt}`; 
+    
+      const auth = new google.auth.GoogleAuth({
+        credentials: {
+          type: process.env.GOOGLE_DRIVE_TYPE,
+          project_id: process.env.GOOGLE_DRIVE_PROJECT_ID,
+          private_key_id: process.env.GOOGLE_DRIVE_PRIVATE_KEY_ID,
+          private_key: process.env.GOOGLE_DRIVE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+          client_email: process.env.GOOGLE_DRIVE_CLIENT_EMAIL,
+          client_id: process.env.GOOGLE_DRIVE_CLIENT_ID,
+          auth_uri: process.env.GOOGLE_DRIVE_AUTH_URI,
+          token_uri: process.env.GOOGLE_DRIVE_TOKEN_URI,
+          auth_provider_x509_cert_url: process.env.GOOGLE_DRIVE_AUTH_PROVIDER_CERT_URL,
+          client_x509_cert_url: process.env.GOOGLE_DRIVE_CLIENT_CERT_URL,
+          universe_domain: process.env.GOOGLE_DRIVE_UNIVERSE_DOMAIN
+        },
+        scopes: 'https://www.googleapis.com/auth/drive'
+      });
 
-        const fileRef = ref(storage, `imgEmpreendedores/${nomeArquivo}`);
-
-        try {
-          await uploadBytes(fileRef, image.buffer);
-          const downloadURL = await getDownloadURL(fileRef);
-          req[fieldName].push(downloadURL);
-        } catch (error) {
-          console.error('Erro ao fazer upload do arquivo:', error);
-          // Trate o erro conforme necessário
-        }
+      const drive = google.drive({ version: 'v3', auth });
+    
+      const fileMetadata = {
+        name: nomeArquivo,
+        parents: [`${process.env.GOOGLE_API_FOLDER_ID}`]
+      };
+    
+      const media = {
+        mimeType: arquivo.mimetype,
+        body: Readable.from([arquivo.buffer])
+      };
+    
+      try {
+        const response = await drive.files.create({
+          resource: fileMetadata,
+          media: media,
+          fields: 'webViewLink, id' // Adicione 'id' para obter o ID do arquivo
+        });
+    
+        const fileId = response.data.id;
+        const directLink = `https://drive.google.com/uc?id=${fileId}`;
+        
+        // Armazenar o link direto na requisição para uso posterior
+        req[fieldName] = directLink;
+      } catch (error) {
+        console.error('Erro ao fazer upload da imagem para o Google Drive:', error);
+        throw error;
       }
     };
 
-    // Inicia o upload para path_banner e path_img
-    uploadPromises.push(uploadFile(path_banner, 'path_banner'));
-    uploadPromises.push(uploadFile(path_img, 'path_img'));
-    uploadPromises.push(uploadFile(path_companies_img, 'path_companies_img'));
-
+    uploadPromises.push(uploadFile(path_banner[0], 'path_banner'));
+    uploadPromises.push(uploadFile(path_img[0], 'path_img'));
+    uploadPromises.push(uploadFile(first_img[0], 'first_img'));
+    uploadPromises.push(uploadFile(second_img[0], 'second_img'));
+    uploadPromises.push(uploadFile(third_img[0], 'third_img'));
+    uploadPromises.push(uploadFile(fourth_img[0], 'fourth_img'));
 
     await Promise.all(uploadPromises);
 
     next();
   } catch (error) {
+    console.error('Error in uploadToGoogleDrive middleware:', error); // Log the error
     return res.status(400).json({ error: error.message });
   }
 };
+export { upload, uploadToGoogleDrive };
 
-export { upload, uploadToFirebase };
-
-
-// import multer from 'multer';
-// import { v4 } from 'uuid';
-// import { extname, resolve } from 'path';
-
-// export default {
-//   storage: multer.diskStorage({
-//     destination: resolve(__dirname, '..', '..', 'uploads'),
-//     filename: (request, file, callback) => {
-//       const uniqueFileName = v4() + extname(file.originalname);
-//       callback(null, uniqueFileName);
-//     },
-//   }),
-//   fileFilter: (request, file, callback) => {
-//     const allowedMimeTypes = ['image/jpeg', 'image/png']; 
-//     if (allowedMimeTypes.includes(file.mimetype)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Tipo de arquivo não suportado'));
-//     }
-//   },
-// };
+export { upload, uploadToGoogleDrive };

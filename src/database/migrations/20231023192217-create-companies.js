@@ -36,8 +36,8 @@ module.exports = {
         allowNull: false,
       },
       path_companies_img: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
       },
       password_hash: {
         type: Sequelize.STRING,
