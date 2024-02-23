@@ -1,9 +1,9 @@
-import multer from 'multer';
-import { v4 } from 'uuid';
-import { extname } from 'path';
-import { google } from 'googleapis';
-import * as dotenv from 'dotenv';
-import { Readable } from 'stream';
+const multer = require('multer');
+const { v4 } = require('uuid');
+const { extname } = require('path');
+const { google } = require('googleapis');
+const dotenv = require('dotenv');
+const { Readable } = require('stream');
 dotenv.config();
 
 const multerConfig = {
@@ -113,6 +113,5 @@ const uploadToGoogleDrive = async (req, res, next) => {
     return res.status(400).json({ error: error.message });
   }
 };
-export { upload, uploadToGoogleDrive };
-
-export { upload, uploadToGoogleDrive };
+exports.upload = upload;
+exports.uploadToGoogleDrive = uploadToGoogleDrive;
