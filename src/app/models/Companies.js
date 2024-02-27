@@ -11,7 +11,7 @@ class Companies extends Model{
             branch_of_activity: Sequelize.STRING, 
             path_banner: Sequelize.STRING,
             path_img: Sequelize.STRING,
-            path_companies_img: Sequelize.ARRAY(Sequelize.STRING),
+            path_companies_img: Sequelize.JSON,
             password: Sequelize.VIRTUAL,
             password_hash: Sequelize.STRING,
           },

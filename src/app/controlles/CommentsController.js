@@ -6,7 +6,6 @@ class CommentsController {
         const schema = yup.object().shape({
             comments_id: yup.number().required(),
             name_user: yup.string().required(),
-            title_comments: yup.string().required(),
             text_comments: yup.string().required(),
             number_of_stars: yup.number().required()
         })
@@ -20,7 +19,6 @@ class CommentsController {
         const {
             comments_id,
             name_user,
-            title_comments,
             text_comments,
             number_of_stars
         } = request.body
@@ -28,7 +26,6 @@ class CommentsController {
         const newComments = Comments.create({
             comments_id,
             name_user,
-            title_comments,
             text_comments,
             number_of_stars
         })

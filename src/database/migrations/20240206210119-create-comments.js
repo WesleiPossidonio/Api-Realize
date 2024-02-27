@@ -5,9 +5,10 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('comments', {
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.fn('uuid_generate_v4'),
+        allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
       },
      comments_id: {
         type: Sequelize.INTEGER,
@@ -22,10 +23,6 @@ module.exports = {
       name_user: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      title_comments: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
       text_comments: {
         type: Sequelize.TEXT,

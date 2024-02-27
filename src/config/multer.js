@@ -88,7 +88,7 @@ const uploadToGoogleDrive = async (req, res, next) => {
         });
     
         const fileId = response.data.id;
-        const directLink = `https://drive.google.com/uc?id=${fileId}`;
+        const directLink = `https://lh3.googleusercontent.com/d/${fileId}?authuser=0`;
         
         // Armazenar o link direto na requisição para uso posterior
         req[fieldName] = directLink;

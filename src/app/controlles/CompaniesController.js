@@ -41,14 +41,14 @@ class CompaniesController {
         email,
         company_description,
         password,
-        path_banner: request.path_banner, // Utilize os links fornecidos pelo middleware de upload
+        path_banner: request.path_banner,
         path_img: request.path_img,
-        path_companies_img: [
-          request.first_img,
-          request.second_img,
-          request.third_img,
-          request.fourth_img,
-        ],
+        path_companies_img: {
+          imageOne: request.first_img,
+          imageTwo: request.second_img,
+          imageThree: request.third_img,
+          imageFour: request.fourth_img,
+        },
       });
 
       return response.json(companies);
