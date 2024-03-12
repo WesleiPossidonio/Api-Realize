@@ -5,7 +5,6 @@ class Comments extends Model {
         super.init({
             comments_id: Sequelize.INTEGER,
             name_user: Sequelize.STRING,
-            title_comments: Sequelize.STRING,
             text_comments: Sequelize.TEXT,
             number_of_stars: Sequelize.INTEGER,
         },
