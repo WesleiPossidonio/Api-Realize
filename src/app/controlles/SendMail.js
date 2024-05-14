@@ -24,10 +24,6 @@ class SendEmail {
 
         const { name , email , subject , phone } = request.body
 
-        console.log(subject)
-
-        // const { filename: pdf } = request.file
-
         try {
             await schema.validateSync(request.body, { abortEarly: false })
         } catch (error) {
@@ -86,11 +82,6 @@ class SendEmail {
                 'X-Mailer': 'MeuApp',
                 'Reply-To': email // Adicionando o e-mail do frontend como um cabeçalho de resposta
             }
-        //     attachments: [ 
-        //     {   
-        //         filename: pdf
-        //     }
-        // ]
         }
 
         try {
