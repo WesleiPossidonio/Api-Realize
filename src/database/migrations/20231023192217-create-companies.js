@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('companies', {
       id: {
         type: Sequelize.INTEGER,
@@ -36,14 +36,14 @@ module.exports = {
         allowNull: false,
       },
       path_companies_img: {
-        type: Sequelize.JSON, 
+        type: Sequelize.JSON,
         allowNull: false,
         defaultValue: {
           imageOne: '',
           imageTwo: '',
           imageThree: '',
-          imageThree: ''
-        }
+          imageFour: '',
+        },
       },
       password_hash: {
         type: Sequelize.STRING,
@@ -60,7 +60,7 @@ module.exports = {
     })
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('companies')
-  }
-};
+  },
+}

@@ -3,115 +3,112 @@ import Vacancies from '../models/Vacancies'
 import Companies from '../models/Companies'
 
 class VacanciesController {
-    async store(request, response){
-        const schema = yup.object().shape({
-            vacancies_id: yup.number().required(),
-            name_vacancies: yup.string().required(),
-            number_of_vacancies: yup.string().required(),
-            job_description: yup.string().required(),
-            vacancy_requirements: yup.string().required(),
-        })
+  async store(request, response) {
+    const schema = yup.object().shape({
+      vacancies_id: yup.number().required(),
+      name_vacancies: yup.string().required(),
+      number_of_vacancies: yup.string().required(),
+      job_description: yup.string().required(),
+      vacancy_requirements: yup.string().required(),
+    })
 
-        try {
-            await schema.validateSync(request.body, { abortEarly: false })
-          } catch (err) {
-            return response.status(400).json({ error: err.errors })
-        }
-
-        const {
-            vacancies_id,
-            name_vacancies,
-            number_of_vacancies,
-            job_description,
-            vacancy_requirements,
-        } = request.body
-
-
-        const newVacancies = Vacancies.create({
-            name_vacancies,
-            number_of_vacancies,
-            job_description,
-            vacancy_requirements,
-            vacancies_id
-        })
-
-        return response.status(201).json(newVacancies)
-      
+    try {
+      await schema.validateSync(request.body, { abortEarly: false })
+    } catch (err) {
+      return response.status(400).json({ error: err.errors })
     }
 
-    async index(request, response){
-        const listVacancies = await Vacancies.findAll({
-            include: {
-                model: Companies, 
-                as: 'vacancies' 
-            },
-        })
-        
-        return response.status(201).json(listVacancies)
+    const {
+      vacancies_id,
+      name_vacancies,
+      number_of_vacancies,
+      job_description,
+      vacancy_requirements,
+    } = request.body
+
+    console.log(vacancies_id)
+
+    const newVacancies = Vacancies.create({
+      name_vacancies,
+      number_of_vacancies,
+      job_description,
+      vacancy_requirements,
+      vacancies_id,
+    })
+
+    return response.status(201).json(newVacancies)
+  }
+
+  async index(request, response) {
+    const listVacancies = await Vacancies.findAll({
+      include: {
+        model: Companies,
+        as: 'vacancies',
+      },
+    })
+
+    return response.status(201).json(listVacancies)
+  }
+
+  async update(response, request) {
+    const schema = yup.object().shape({
+      name_vacancies: yup.string(),
+      number_of_vacancies: yup.string(),
+      job_description: yup.string(),
+      vacancy_requirements: yup.string(),
+    })
+
+    try {
+      await schema.validateSync(request.body, { abortEarly: false })
+    } catch (err) {
+      return response.status(400).json({ error: err.errors })
     }
 
-    async update(response, request){
-        const schema = yup.object().shape({
-            name_vacancies: yup.string(),
-            number_of_vacancies: yup.string(),
-            job_description: yup.string(),
-            vacancy_requirements: yup.string(),
-        })
+    const { vacancies_id } = request.params
 
-        try {
-            await schema.validateSync(request.body, { abortEarly: false })
-          } catch (err) {
-            return response.status(400).json({ error: err.errors })
-        }
+    const cacanciesExists = await Vacancies.findOne({
+      where: { vacancies_id },
+    })
 
-
-        const { vacancies_id } = request.params
-
-        const cacanciesExists = await Vacancies.findOne({
-            where: { vacancies_id },
-        })
-
-        if (!cacanciesExists) {
-            return response.status(400).json({ error: 'Vaga Não Encontrada' })
-        }
-
-        const {
-            name_vacancies,
-            number_of_vacancies,
-            job_description,
-            vacancy_requirements,
-        } = request.body
-
-        await Vacancies.update(
-            {
-                name_vacancies,
-                number_of_vacancies,
-                job_description,
-                vacancy_requirements,
-                            },
-            { where: { vacancies_id } }
-        )
-
-        return response.json({ message: 'status was update sucessfully' })
+    if (!cacanciesExists) {
+      return response.status(400).json({ error: 'Vaga Não Encontrada' })
     }
 
-    async delete(response, request){
-        const { vacancies_id } = request.params
+    const {
+      name_vacancies,
+      number_of_vacancies,
+      job_description,
+      vacancy_requirements,
+    } = request.body
 
-        const userExists = await Vacancies.findOne({
-            where: { vacancies_id },
-        })
+    await Vacancies.update(
+      {
+        name_vacancies,
+        number_of_vacancies,
+        job_description,
+        vacancy_requirements,
+      },
+      { where: { vacancies_id } },
+    )
 
-        if (!userExists) {
-            return response.status(400).json({ error: 'Vaga Não Encontrada' })
-        }
+    return response.json({ message: 'status was update sucessfully' })
+  }
 
-        await Vacancies.destroy({
-            where: { vacancies_id },
-        });
+  async delete(response, request) {
+    const { vacancies_id } = request.params
+
+    const userExists = await Vacancies.findOne({
+      where: { vacancies_id },
+    })
+
+    if (!userExists) {
+      return response.status(400).json({ error: 'Vaga Não Encontrada' })
     }
+
+    await Vacancies.destroy({
+      where: { vacancies_id },
+    })
+  }
 }
-
-
 
 export default new VacanciesController()

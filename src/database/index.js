@@ -5,8 +5,6 @@ import Companies from '../app/models/Companies'
 import Vacancies from '../app/models/Vacancies'
 import Comments from '../app/models/Comments'
 
-
-
 const models = [Companies, Vacancies, Comments]
 
 class Database {
@@ -16,9 +14,11 @@ class Database {
 
   init() {
     this.connection = new Sequelize(configDatabase)
-    models.map((model) => model.init(this.connection)).map(
-      (model) => model.associate && model.associate(this.connection.models)
-    )
+    models
+      .map((model) => model.init(this.connection))
+      .map(
+        (model) => model.associate && model.associate(this.connection.models),
+      )
   }
 }
 

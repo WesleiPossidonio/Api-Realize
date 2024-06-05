@@ -4,9 +4,9 @@ import routes from './routes'
 import cors from 'cors'
 
 import * as dotenv from 'dotenv'
-dotenv.config()
 
 import './database'
+dotenv.config()
 
 class App {
   constructor() {
@@ -18,7 +18,7 @@ class App {
 
   middlewares() {
     this.app.use(express.json())
-    this.app.use(express.urlencoded({extended: true}))
+    this.app.use(express.urlencoded({ extended: true }))
     this.app.use(cors())
   }
 
